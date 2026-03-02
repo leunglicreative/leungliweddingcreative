@@ -1,26 +1,181 @@
 ---
-import '../styles/global.css';
-// Component Imports
-import Button from '../components/Button.astro';
-
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
+import "../styles/global.css";
+import Hero from "../components/Hero.astro";
+import Countdown from "../components/Countdown.astro";
+import Details from "../components/Details.astro";
+import Quotes from "../components/Quotes.astro";
+import Navigation from "../components/Navigation.astro";
+import InvitationModal from "../components/InvitationModal.astro";
+import FloatingDecor from "../components/FloatingDecor.astro";
 ---
 
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro + TailwindCSS</title>
+		<title>The Wedding of Mempelai Pria & Wanita</title>
+		<!-- Add metadata for better visual integration on mobile -->
+		<meta name="theme-color" content="#f9f6f0" />
 	</head>
 
-	<body>
-		<div class="grid place-items-center h-screen content-center">
-			<Button>Tailwind Button in Astro!</Button>
-			<a href="/markdown-page" class="p-4 underline">Markdown is also supported...</a>
-		</div>
+	<body class="font-display antialiased bg-cream text-charcoal modal-active">
+		<InvitationModal />
+
+		<main
+			id="main-content"
+			class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden pb-40 content-blur"
+		>
+			<!-- Hero Section - Background is static, content reveals -->
+			<Hero />
+
+			<!-- Reveal Sections -->
+			<div class="reveal">
+				<Countdown />
+			</div>
+
+			<!-- Formal Greeting Section -->
+			<div class="reveal">
+				<div class="max-w-4xl mx-auto text-center pt-4 pb-12 px-6">
+					<h2
+						class="text-gold uppercase tracking-[0.4em] text-[10px] lg:text-xs font-bold mb-8"
+					>
+						The Wedding Invitation
+					</h2>
+					<p
+						class="text-gold font-serif text-lg lg:text-2xl leading-relaxed mb-10"
+					>
+						"Maha Suci Allah yang telah menciptakan makhluk-Nya
+						berpasang-pasangan. Ya Allah, perkenankanlah kami
+						merangkaikan kasih sayang yang Kau ciptakan dalam
+						pernikahan putra-putri kami."
+					</p>
+					<div class="flex flex-col items-center gap-6">
+						<div class="flex flex-col items-center">
+							<p
+								class="text-charcoal font-bold tracking-[0.2em] text-sm uppercase mb-2"
+							>
+								Mempelai Pria & Mempelai Wanita
+							</p>
+							<p
+								class="text-charcoal/60 text-[10px] lg:text-xs tracking-widest leading-loose font-medium"
+							>
+								Putra dari Keluarga Bpk. Nama Ayah & Ibu Nama
+								Ibu <br />
+								& <br />
+								Putri dari Keluarga Bpk. Nama Ayah & Ibu Nama Ibu
+							</p>
+						</div>
+						<div
+							class="h-12 w-px bg-linear-to-b from-gold/50 to-transparent"
+						>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="reveal">
+				<!-- Horizontal Highlight Image -->
+				<div class="px-6 pb-20 max-w-7xl mx-auto">
+					<div
+						class="relative w-full aspect-video lg:aspect-21/9 overflow-hidden rounded-32 shadow-2xl shadow-charcoal/10 bg-cream"
+					>
+						<img
+							src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_TPH8yxj0bjXGyZUwFqE_P0ZQd-vq8NLzB5MXr11p6TSvHyL2yHfahm_Wc5MJPPrQvqtDGawMkRWGExzXUvrrNwG-WE8DoRsRRnEId2M_6pwKzgjRnhT4DmkkjtK47kKzrr00GkdWY3ho5sh4OZ3HDMWCmwQLPoPq5qGKDuiUwddfex04Cc_nnhAhwkplbPS95l9Lh8JRhmhL_OrOM8vpBWr1lGnH8zXS9w5T_ypMWCX7EGJug5VpHkjGDF9QC7NWQnTod5DvXlSL"
+							alt="Wedding Moment"
+							class="w-full h-full object-cover object-center transform-none"
+						/>
+						<div class="absolute inset-0 bg-charcoal/5"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="reveal"><Details /></div>
+			<div class="reveal"><Quotes /></div>
+			<Navigation />
+			<FloatingDecor />
+		</main>
+
+		<script is:inline>
+			const observerOptions = {
+				root: null,
+				rootMargin: "0px",
+				threshold: 0.1,
+			};
+
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add("active");
+						observer.unobserve(entry.target);
+					}
+				});
+			}, observerOptions);
+
+			function initReveal() {
+				document.querySelectorAll(".reveal").forEach((el) => {
+					observer.observe(el);
+				});
+			}
+
+			// Handle Invitation Open
+			const modal = document.getElementById("invitation-modal");
+			const openBtn = document.getElementById("open-invitation-btn");
+			const mainContent = document.getElementById("main-content");
+			let isOpened = false;
+
+			function openInvitation() {
+				if (isOpened) return;
+				isOpened = true;
+
+				// Save state to localStorage
+				localStorage.setItem("invitationOpened", "true");
+
+				document.body.classList.remove("modal-active");
+				if (mainContent) mainContent.classList.remove("content-blur");
+
+				if (modal) {
+					modal.style.opacity = "0";
+					modal.style.transition = "opacity 1s ease, visibility 1s";
+					modal.style.visibility = "hidden";
+					modal.style.pointerEvents = "none";
+
+					setTimeout(() => {
+						modal.style.display = "none";
+						initReveal(); // Start animations after opening
+						// Refresh scroll for mobile stability
+						window.dispatchEvent(new Event("resize"));
+					}, 1000);
+				}
+			}
+
+			// Check if already opened before
+			if (localStorage.getItem("invitationOpened") === "true") {
+				isOpened = true;
+				document.body.classList.remove("modal-active");
+				if (mainContent) mainContent.classList.remove("content-blur");
+				if (modal) modal.style.display = "none";
+				initReveal();
+			} else {
+				if (openBtn) {
+					openBtn.addEventListener("click", openInvitation);
+				}
+
+				// Auto-open after 10 seconds if not clicked
+				const autoOpenTimer = setTimeout(() => {
+					if (!isOpened) {
+						openInvitation();
+					}
+				}, 10000);
+
+				// Cleanup timer if manually opened
+				if (openBtn) {
+					openBtn.addEventListener("click", () =>
+						clearTimeout(autoOpenTimer),
+					);
+				}
+			}
+		</script>
 	</body>
 </html>

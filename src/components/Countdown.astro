@@ -1,0 +1,115 @@
+---
+
+---
+
+<section class="px-6 pt-8 pb-20 scroll-mt-20">
+    <h3
+        class="text-center text-gold/60 font-serif italic text-sm mb-6 uppercase tracking-widest"
+    >
+        Counting down to our big day
+    </h3>
+
+    <div class="grid grid-cols-4 gap-4 max-w-md mx-auto">
+        <div class="flex flex-col items-center">
+            <div
+                class="w-full aspect-square flex items-center justify-center border border-charcoal/10 bg-white shadow-sm rounded-lg mb-2"
+            >
+                <span id="days" class="text-charcoal font-serif text-2xl"
+                    >00</span
+                >
+            </div>
+            <span
+                class="text-[9px] uppercase tracking-widest text-charcoal/40 font-bold"
+                >Days</span
+            >
+        </div>
+
+        <div class="flex flex-col items-center">
+            <div
+                class="w-full aspect-square flex items-center justify-center border border-charcoal/10 bg-white shadow-sm rounded-lg mb-2"
+            >
+                <span id="hours" class="text-charcoal font-serif text-2xl"
+                    >00</span
+                >
+            </div>
+            <span
+                class="text-[9px] uppercase tracking-widest text-charcoal/40 font-bold"
+                >Hours</span
+            >
+        </div>
+
+        <div class="flex flex-col items-center">
+            <div
+                class="w-full aspect-square flex items-center justify-center border border-charcoal/10 bg-white shadow-sm rounded-lg mb-2"
+            >
+                <span id="minutes" class="text-charcoal font-serif text-2xl"
+                    >00</span
+                >
+            </div>
+            <span
+                class="text-[9px] uppercase tracking-widest text-charcoal/40 font-bold"
+                >Mins</span
+            >
+        </div>
+
+        <div class="flex flex-col items-center">
+            <div
+                class="w-full aspect-square flex items-center justify-center border border-charcoal/10 bg-white shadow-sm rounded-lg mb-2"
+            >
+                <span id="seconds" class="text-charcoal font-serif text-2xl"
+                    >00</span
+                >
+            </div>
+            <span
+                class="text-[9px] uppercase tracking-widest text-charcoal/40 font-bold"
+                >Secs</span
+            >
+        </div>
+    </div>
+</section>
+
+<script is:inline>
+    // ==========================================
+    // KONFIGURASI TANGGAL PERNIKAHAN
+    // Ganti tanggal di bawah ini dengan format: 'YYYY-MM-DDTHH:mm:ss'
+    // Contoh: '2026-03-24T09:00:00'
+    // ==========================================
+    const TARGET_WEDDING_DATE = "2026-03-24T09:00:00";
+
+    function updateCountdown() {
+        const targetDate = new Date(TARGET_WEDDING_DATE).getTime();
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        const daysEl = document.getElementById("days");
+        const hoursEl = document.getElementById("hours");
+        const minutesEl = document.getElementById("minutes");
+        const secondsEl = document.getElementById("seconds");
+
+        if (distance < 0) {
+            if (daysEl) daysEl.innerText = "00";
+            if (hoursEl) hoursEl.innerText = "00";
+            if (minutesEl) minutesEl.innerText = "00";
+            if (secondsEl) secondsEl.innerText = "00";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+        );
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        if (daysEl) daysEl.innerText = String(days).padStart(2, "0");
+        if (hoursEl) hoursEl.innerText = String(hours).padStart(2, "0");
+        if (minutesEl) minutesEl.innerText = String(minutes).padStart(2, "0");
+        if (secondsEl) secondsEl.innerText = String(seconds).padStart(2, "0");
+    }
+
+    // Update setiap detik agar realtime
+    setInterval(updateCountdown, 1000);
+
+    // Jalankan segera saat halaman dimuat
+    updateCountdown();
+</script>

@@ -1,0 +1,62 @@
+---
+
+---
+
+<div
+    class="fixed inset-x-0 bottom-0 z-40 pointer-events-none px-0 flex justify-between items-end overflow-hidden"
+>
+    <!-- Bride Illustration (Left) -->
+    <div
+        class="w-16 lg:w-24 transition-opacity duration-700 opacity-0 lg:opacity-100"
+        id="bride-float"
+    >
+        <img
+            src="/assets/bride.png"
+            alt="Bride Decor"
+            class="w-full h-auto drop-shadow-xl saturate-[0.9]"
+        />
+    </div>
+
+    <!-- Groom Illustration (Right) -->
+    <div
+        class="w-16 lg:w-24 transition-opacity duration-700 opacity-0 lg:opacity-100"
+        id="groom-float"
+    >
+        <img
+            src="/assets/groom.png"
+            alt="Groom Decor"
+            class="w-full h-auto drop-shadow-xl saturate-[0.9]"
+        />
+    </div>
+</div>
+
+<style>
+    #bride-float,
+    #groom-float {
+        filter: drop-shadow(0 10px 15px rgba(26, 26, 26, 0.1));
+    }
+</style>
+
+<script is:inline>
+    // Hide decor when invitation is closed/scrolled too far?
+    // Or just keep them after opening
+    const bride = document.getElementById("bride-float");
+    const groom = document.getElementById("groom-float");
+
+    // Check if invitation already opened
+    if (localStorage.getItem("invitationOpened") === "true") {
+        if (bride) bride.classList.remove("opacity-0");
+        if (groom) groom.classList.remove("opacity-0");
+    }
+
+    // Listen for invitation open event or just check periodically
+    window.addEventListener("load", () => {
+        const checkOpen = setInterval(() => {
+            if (localStorage.getItem("invitationOpened") === "true") {
+                if (bride) bride.classList.remove("opacity-0");
+                if (groom) groom.classList.remove("opacity-0");
+                clearInterval(checkOpen);
+            }
+        }, 500);
+    });
+</script>

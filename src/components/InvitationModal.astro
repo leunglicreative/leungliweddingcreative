@@ -1,0 +1,54 @@
+---
+
+---
+
+<div
+    id="invitation-modal"
+    class="fixed inset-0 z-100 flex items-center justify-center bg-cream transition-opacity duration-1000 ease-in-out"
+>
+    <!-- Background with blur -->
+    <div
+        class="absolute inset-0 bg-cover bg-center bg-[url('https://lh3.googleusercontent.com/aida-public/AB6AXuC_TPH8yxj0bjXGyZUwFqE_P0ZQd-vq8NLzB5MXr11p6TSvHyL2yHfahm_Wc5MJPPrQvqtDGawMkRWGExzXUvrrNwG-WE8DoRsRRnEId2M_6pwKzgjRnhT4DmkkjtK47kKzrr00GkdWY3ho5sh4OZ3HDMWCmwQLPoPq5qGKDuiUwddfex04Cc_nnhAhwkplbPS95l9Lh8JRhmhL_OrOM8vpBWr1lGnH8zXS9w5T_ypMWCX7EGJug5VpHkjGDF9QC7NWQnTod5DvXlSL')] blur-sm brightness-50"
+    >
+    </div>
+
+    <!-- Overlay Card -->
+    <div
+        class="relative z-100 p-8 lg:p-12 max-w-[90%] w-[340px] lg:w-[450px] bg-white/40 backdrop-blur-md rounded-32 border border-white/20 shadow-2xl text-center animate-fade-in-up transition-all duration-700 hover:bg-white/50"
+    >
+        <p
+            class="text-charcoal uppercase tracking-[0.4em] text-[10px] mb-4 font-bold opacity-70"
+        >
+            Undangan Pernikahan
+        </p>
+
+        <h1 class="text-charcoal font-serif italic text-3xl mb-2 leading-tight">
+            Mempelai Pria & <br />Mempelai Wanita
+        </h1>
+
+        <div class="h-px w-12 bg-gold/40 mx-auto my-6"></div>
+
+        <p class="text-charcoal/80 text-xs mb-8 leading-relaxed">
+            Kepada Bapak/Ibu/Saudara/i,<br />
+            Kami mengundang Anda untuk hadir di acara kami.
+        </p>
+
+        <button
+            id="open-invitation-btn"
+            class="w-full bg-charcoal text-cream py-4 rounded-full text-xs font-bold tracking-[0.2em] uppercase transition-all duration-500 shadow-xl hover:bg-gold hover:text-charcoal active:scale-95 cursor-pointer"
+        >
+            Buka Undangan
+        </button>
+    </div>
+</div>
+
+<style>
+    body.modal-active {
+        overflow: hidden !important;
+    }
+
+    #main-content.content-blur {
+        filter: blur(20px);
+        transition: filter 1.5s ease;
+    }
+</style>

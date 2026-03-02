@@ -1,1 +1,84 @@
 @import "tailwindcss";
+
+@theme {
+    --color-charcoal: #1a1a1a;
+    --color-cream: #f9f6f0;
+    --color-cream-dark: #f2ede4;
+    --color-gold: #b08d57;
+    --color-gold-light: #d4af37;
+
+    --font-display: "Plus Jakarta Sans", sans-serif;
+    --font-serif: "Playfair Display", serif;
+
+    --radius-32: 32px;
+    --radius-lg: 2rem;
+    --radius-xl: 3rem;
+}
+
+@layer base {
+    @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap");
+    @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
+
+    body {
+        @apply bg-cream text-charcoal font-display antialiased;
+        min-height: 100dvh;
+    }
+}
+
+.hero-image-container {
+    aspect-ratio: 3 / 4;
+}
+
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.animate-fade-in-up {
+    animation: fade-in-up 1s ease-out forwards;
+}
+
+@keyframes shimmer-gold-v {
+    0% {
+        background-position: center -200%;
+    }
+
+    100% {
+        background-position: center 200%;
+    }
+}
+
+.text-shimmer-gold {
+    background: linear-gradient(to bottom,
+            #b08d57 0%,
+            #d4af37 25%,
+            #f9f6f0 50%,
+            #d4af37 75%,
+            #b08d57 100%);
+    background-size: auto 200%;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: shimmer-gold-v 6s linear infinite;
+    display: inline-block;
+    width: 100%;
+    font-style: normal !important;
+}

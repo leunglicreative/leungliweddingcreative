@@ -1,0 +1,186 @@
+<section
+    id="hero"
+    class="relative w-full min-h-dvh flex flex-col items-center justify-end overflow-hidden scroll-mt-20 pb-16 lg:pb-24"
+>
+    <!-- Background Carousel -->
+    <div class="absolute inset-0 z-0 bg-charcoal">
+        <div id="hero-carousel" class="relative w-full h-full">
+            <!-- Slide 1 -->
+            <div
+                class="carousel-slide absolute inset-0 opacity-100 transition-opacity duration-1000 ease-in-out"
+            >
+                <img
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_TPH8yxj0bjXGyZUwFqE_P0ZQd-vq8NLzB5MXr11p6TSvHyL2yHfahm_Wc5MJPPrQvqtDGawMkRWGExzXUvrrNwG-WE8DoRsRRnEId2M_6pwKzgjRnhT4DmkkjtK47kKzrr00GkdWY3ho5sh4OZ3HDMWCmwQLPoPq5qGKDuiUwddfex04Cc_nnhAhwkplbPS95l9Lh8JRhmhL_OrOM8vpBWr1lGnH8zXS9w5T_ypMWCX7EGJug5VpHkjGDF9QC7NWQnTod5DvXlSL"
+                    alt="Wedding Background 1"
+                    class="w-full h-full object-cover transform-none"
+                />
+            </div>
+            <!-- Slide 2 -->
+            <div
+                class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out"
+            >
+                <img
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_TPH8yxj0bjXGyZUwFqE_P0ZQd-vq8NLzB5MXr11p6TSvHyL2yHfahm_Wc5MJPPrQvqtDGawMkRWGExzXUvrrNwG-WE8DoRsRRnEId2M_6pwKzgjRnhT4DmkkjtK47kKzrr00GkdWY3ho5sh4OZ3HDMWCmwQLPoPq5qGKDuiUwddfex04Cc_nnhAhwkplbPS95l9Lh8JRhmhL_OrOM8vpBWr1lGnH8zXS9w5T_ypMWCX7EGJug5VpHkjGDF9QC7NWQnTod5DvXlSL"
+                    alt="Wedding Background 2"
+                    class="w-full h-full object-cover transform-none"
+                />
+            </div>
+            <!-- Slide 3 -->
+            <div
+                class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out"
+            >
+                <img
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_TPH8yxj0bjXGyZUwFqE_P0ZQd-vq8NLzB5MXr11p6TSvHyL2yHfahm_Wc5MJPPrQvqtDGawMkRWGExzXUvrrNwG-WE8DoRsRRnEId2M_6pwKzgjRnhT4DmkkjtK47kKzrr00GkdWY3ho5sh4OZ3HDMWCmwQLPoPq5qGKDuiUwddfex04Cc_nnhAhwkplbPS95l9Lh8JRhmhL_OrOM8vpBWr1lGnH8zXS9w5T_ypMWCX7EGJug5VpHkjGDF9QC7NWQnTod5DvXlSL"
+                    alt="Wedding Background 3"
+                    class="w-full h-full object-cover transform-none"
+                />
+            </div>
+            <!-- Dark Overlay for Readability -->
+            <div class="absolute inset-0 bg-charcoal/30"></div>
+            <div
+                class="absolute inset-0 bg-linear-to-t from-charcoal/90 via-charcoal/40 to-transparent"
+            >
+            </div>
+        </div>
+    </div>
+
+    <!-- Combined Content Area at the Bottom -->
+    <div class="relative z-10 w-full flex flex-col items-center">
+        <!-- Indicators - Now positioned closely above the text -->
+        <div class="flex gap-2 mb-8 opacity-80 animate-fade-in-up">
+            <div
+                class="carousel-dot w-6 h-1.5 rounded-full bg-gold transition-all duration-500"
+            >
+            </div>
+            <div
+                class="carousel-dot w-1.5 h-1.5 rounded-full bg-cream/30 transition-all duration-500"
+            >
+            </div>
+            <div
+                class="carousel-dot w-1.5 h-1.5 rounded-full bg-cream/30 transition-all duration-500"
+            >
+            </div>
+        </div>
+
+        <!-- Text content -->
+        <div
+            id="calendar"
+            class="text-center px-6 max-w-2xl scroll-mt-24 animate-fade-in-up"
+        >
+            <p
+                class="text-gold uppercase tracking-[0.5em] text-[10px] lg:text-xs mb-4 font-bold"
+            >
+                The Wedding Celebration of
+            </p>
+
+            <h1
+                class="text-5xl lg:text-7xl font-serif text-cream mb-6 italic leading-tight drop-shadow-2xl"
+            >
+                Mempelai Pria <br /> & Mempelai Wanita
+            </h1>
+
+            <div class="flex items-center justify-center gap-6 mb-10">
+                <div class="h-px w-8 bg-gold/50"></div>
+                <p
+                    class="text-cream/90 uppercase tracking-[0.4em] text-[12px] lg:text-sm font-medium"
+                >
+                    24 . 03 . 2026
+                </p>
+                <div class="h-px w-8 bg-gold/50"></div>
+            </div>
+
+            <button
+                id="save-date-btn"
+                class="group relative bg-cream/90 backdrop-blur-sm text-charcoal px-12 py-5 rounded-full text-xs font-bold tracking-[0.3em] uppercase overflow-hidden transition-all duration-500 shadow-2xl hover:bg-gold hover:text-charcoal active:scale-95 flex items-center gap-3 mx-auto cursor-pointer"
+            >
+                <span class="relative z-10">Simpan Tanggal</span>
+                <div
+                    class="absolute inset-0 bg-gold opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                >
+                </div>
+            </button>
+        </div>
+    </div>
+</section>
+
+<script is:inline>
+    // Carousel Logic
+    const slides = document.querySelectorAll(".carousel-slide");
+    const dots = document.querySelectorAll(".carousel-dot");
+    let currentSlide = 0;
+    let slideInterval;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.style.opacity = i === index ? "1" : "0";
+        });
+        dots.forEach((dot, i) => {
+            if (i === index) {
+                dot.style.backgroundColor = "rgba(249, 246, 240, 0.8)";
+                dot.style.width = "24px";
+            } else {
+                dot.style.backgroundColor = "rgba(249, 246, 240, 0.2)";
+                dot.style.width = "6px";
+            }
+        });
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    function startInterval() {
+        slideInterval = setInterval(nextSlide, 3000);
+    }
+
+    // Auto Swipe 3s
+    startInterval();
+
+    // Manual Swipe Logic
+    const carouselContainer = document.getElementById("hero-carousel");
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    if (carouselContainer) {
+        carouselContainer.addEventListener(
+            "touchstart",
+            (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                clearInterval(slideInterval);
+            },
+            { passive: true },
+        );
+
+        carouselContainer.addEventListener(
+            "touchend",
+            (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                const threshold = 50;
+                if (touchEndX < touchStartX - threshold) nextSlide();
+                if (touchEndX > touchStartX + threshold) prevSlide();
+                startInterval();
+            },
+            { passive: true },
+        );
+    }
+
+    // Save Date Logic
+    const saveDateBtn = document.getElementById("save-date-btn");
+    if (saveDateBtn) {
+        saveDateBtn.addEventListener("click", () => {
+            const title = "Pernikahan Mempelai Pria & Wanita";
+            const details = "Acara resepsi pernikahan di Jakarta.";
+            const location = "The Grand Ballroom, Luxury Hotel, Jakarta";
+            const start = "20260324T090000";
+            const end = "20260324T130000";
+            const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&dates=${start}/${end}`;
+            window.open(googleUrl, "_blank");
+        });
+    }
+</script>
