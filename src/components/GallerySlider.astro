@@ -18,7 +18,8 @@ const {
     <!-- Slider Container -->
     <div
         id="gallery-slider"
-        class="flex transition-transform duration-500 ease-out cursor-grab active:cursor-grabbing px-6 lg:px-0"
+        class="flex cursor-grab active:cursor-grabbing px-6 lg:px-0"
+        style="will-change: transform; transform: translate3d(0,0,0);"
     >
         {
             images.map((src, index) => (
@@ -31,7 +32,7 @@ const {
                          Ubah 'rounded-2xl' menjadi 'rounded-lg', 'rounded-3xl', atau 'rounded-none' 
                          untuk mengatur kelengkungan ujung gambar.
                     -->
-                    <div class="relative aspect-[4/5] bg-charcoal/10 overflow-hidden shadow-lg border border-white/5 rounded-2xl">
+                    <div class="relative aspect-4/5 bg-charcoal/10 overflow-hidden shadow-lg border border-white/5 rounded-2xl">
                         <img
                             src={src}
                             alt={`Gallery Image ${index + 1}`}
@@ -67,105 +68,112 @@ const {
 
         let currentIndex = 0;
         let startX = 0;
+        let startY = 0;
         let currentTranslate = 0;
         let prevTranslate = 0;
         let isDragging = false;
         let animationID = 0;
+        let startTime = 0;
 
         function getVisibleCount() {
-            return window.innerWidth >= 768 ? 3 : 1;
+            const width = window.innerWidth;
+            if (width >= 1024) return 3;
+            if (width >= 768) return 2;
+            return 1;
         }
 
         function getMaxIndex() {
             return Math.max(0, items.length - getVisibleCount());
         }
 
-        function updateSlider() {
-            const visibleCount = getVisibleCount();
-            const itemWidth = (items[0] as HTMLElement).offsetWidth;
-
-            // Limit current index
-            if (currentIndex > getMaxIndex()) currentIndex = getMaxIndex();
+        function updateSlider(withTransition = true) {
+            const firstItem = items[0] as HTMLElement;
+            if (!firstItem) return;
+            
+            const itemWidth = firstItem.offsetWidth;
+            const maxIndex = getMaxIndex();
+            
+            if (currentIndex > maxIndex) currentIndex = 0;
+            if (currentIndex < 0) currentIndex = maxIndex;
 
             currentTranslate = -currentIndex * itemWidth;
             prevTranslate = currentTranslate;
 
-            slider!.style.transform = `translateX(${currentTranslate}px)`;
+            slider!.style.transition = withTransition ? "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)" : "none";
+            slider!.style.transform = `translate3d(${currentTranslate}px, 0, 0)`;
 
-            // Update dots
             dots.forEach((dot, index) => {
                 const isActive = index === currentIndex;
-                (dot as HTMLElement).style.backgroundColor = isActive
-                    ? "#b08d57"
-                    : "rgba(176, 141, 87, 0.2)";
-                (dot as HTMLElement).style.width = isActive ? "24px" : "8px";
+                const dotElement = dot as HTMLElement;
+                dotElement.style.backgroundColor = isActive ? "#b08d57" : "rgba(176, 141, 87, 0.2)";
+                dotElement.style.width = isActive ? "24px" : "8px";
             });
         }
 
         function handleDragStart(e: any) {
             isDragging = true;
-            startX = e.type.includes("mouse") ? e.pageX : e.touches[0].clientX;
+            startTime = Date.now();
+            const touch = e.type.includes("mouse") ? e : e.touches[0];
+            startX = touch.pageX;
+            startY = touch.pageY;
+            
             slider!.style.transition = "none";
-            animationID = requestAnimationFrame(animation);
+            slider!.style.cursor = "grabbing";
+            cancelAnimationFrame(animationID);
         }
 
         function handleDragMove(e: any) {
             if (!isDragging) return;
             
-            const currentX = e.type.includes("mouse")
-                ? e.pageX
-                : e.touches[0].clientX;
-            const currentY = e.type.includes("mouse")
-                ? e.pageY
-                : e.touches[0].clientY;
+            const touch = e.type.includes("mouse") ? e : e.touches[0];
+            const currentX = touch.pageX;
+            const currentY = touch.pageY;
 
-            // Calculate movement diff
             const diffX = currentX - startX;
-            const diffY = currentY - (e.type.includes("mouse") ? 0 : e.touches[0].clientY); // Simple Y check
+            const diffY = currentY - startY;
             
-            // If horizontal movement is significantly more than vertical, prevent page scroll
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+            if (Math.abs(diffX) > Math.abs(diffY)) {
                 if (e.cancelable) e.preventDefault();
+                currentTranslate = prevTranslate + diffX;
+                slider!.style.transform = `translate3d(${currentTranslate}px, 0, 0)`;
+            } else if (Math.abs(diffY) > 10) {
+                isDragging = false;
+                slider!.style.cursor = "grab";
             }
-
-            currentTranslate = prevTranslate + diffX;
         }
 
         function handleDragEnd() {
             if (!isDragging) return;
             isDragging = false;
-            cancelAnimationFrame(animationID);
-            slider!.style.transition = "transform 0.5s cubic-bezier(0.2, 1, 0.3, 1)";
+            slider!.style.cursor = "grab";
 
             const movedBy = currentTranslate - prevTranslate;
+            const timeElapsed = Date.now() - startTime;
+            const velocity = Math.abs(movedBy) / timeElapsed;
             const threshold = 50;
+            const maxIndex = getMaxIndex();
 
-            if (movedBy < -threshold && currentIndex < getMaxIndex()) {
-                currentIndex += 1;
-            } else if (movedBy > threshold && currentIndex > 0) {
-                currentIndex -= 1;
+            if (movedBy < -threshold || (velocity > 0.5 && movedBy < 0)) {
+                if (currentIndex >= maxIndex) currentIndex = 0;
+                else currentIndex += 1;
+            } else if (movedBy > threshold || (velocity > 0.5 && movedBy > 0)) {
+                if (currentIndex <= 0) currentIndex = maxIndex;
+                else currentIndex -= 1;
             }
 
             updateSlider();
         }
 
-        function animation() {
-            slider!.style.transform = `translateX(${currentTranslate}px)`;
-            if (isDragging) requestAnimationFrame(animation);
-        }
-
-        // Event Listeners - Use non-passive for touchmove to allow preventing scroll when swiping
-        slider.addEventListener("touchstart", handleDragStart, { passive: true });
-        slider.addEventListener("touchmove", handleDragMove, { passive: false });
-        slider.addEventListener("touchend", handleDragEnd);
-
+        // Use precise event handling
         slider.addEventListener("mousedown", handleDragStart);
-        window.addEventListener("mousemove", (e) => {
-            if (isDragging) handleDragMove(e);
-        });
-        window.addEventListener("mouseup", handleDragEnd);
+        slider.addEventListener("touchstart", handleDragStart, { passive: true });
 
-        // Dot Clicks
+        window.addEventListener("mousemove", (e) => isDragging && handleDragMove(e), { passive: false });
+        window.addEventListener("touchmove", (e) => isDragging && handleDragMove(e), { passive: false });
+
+        window.addEventListener("mouseup", handleDragEnd);
+        window.addEventListener("touchend", handleDragEnd);
+
         dots.forEach((dot, index) => {
             dot.addEventListener("click", () => {
                 currentIndex = Math.min(index, getMaxIndex());
@@ -173,9 +181,15 @@ const {
             });
         });
 
-        // Initialize
-        updateSlider();
-        window.addEventListener("resize", updateSlider);
+        const setup = () => updateSlider(false);
+        setup();
+        setTimeout(setup, 100);
+
+        let resizeTimer: any;
+        window.addEventListener("resize", () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(setup, 150);
+        });
     }
 
     initNormalSlider();
@@ -185,19 +199,29 @@ const {
 <style>
     .gallery-slider-wrapper {
         user-select: none;
-        -webkit-user-drag: none;
-        touch-action: pan-y; /* Allow vertical scroll, block horizontal/zoom */
+        touch-action: pan-y;
+        overflow: hidden;
     }
 
     #gallery-slider {
+        display: flex;
         touch-action: pan-y;
-        will-change: transform;
+        -webkit-user-drag: none;
+        /* Hardware acceleration */
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
+    }
+
+    .gallery-item {
+        /* Anti-jitter properties */
+        backface-visibility: hidden;
+        transform: translateZ(0);
+        flex-shrink: 0;
     }
 
     .gallery-item img {
         pointer-events: none;
         -webkit-user-drag: none;
         user-select: none;
-        touch-action: none;
     }
 </style>
