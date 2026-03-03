@@ -1,13 +1,15 @@
 <section
     id="hero"
-    class="relative w-full min-h-dvh flex flex-col items-center justify-end overflow-hidden scroll-mt-20 pb-16 lg:pb-24"
+    class="relative w-full h-[85vh] lg:h-[90vh] flex flex-col items-center justify-end overflow-hidden pb-16 lg:pb-24 touch-pan-y"
+    style="overscroll-behavior-y: none;"
 >
     <!-- Background Carousel -->
-    <div class="absolute inset-0 z-0 bg-charcoal">
+    <div class="absolute inset-0 z-0 bg-charcoal transform-gpu translate-z-0">
         <div id="hero-carousel" class="relative w-full h-full">
             <!-- Slide 1 -->
             <div
-                class="carousel-slide absolute inset-0 opacity-100 transition-opacity duration-1000 ease-in-out"
+                class="carousel-slide absolute inset-0 opacity-100 transition-opacity duration-1000 ease-in-out will-change-[opacity]"
+                style="transform: translateZ(0);"
             >
                 <img
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_TPH8yxj0bjXGyZUwFqE_P0ZQd-vq8NLzB5MXr11p6TSvHyL2yHfahm_Wc5MJPPrQvqtDGawMkRWGExzXUvrrNwG-WE8DoRsRRnEId2M_6pwKzgjRnhT4DmkkjtK47kKzrr00GkdWY3ho5sh4OZ3HDMWCmwQLPoPq5qGKDuiUwddfex04Cc_nnhAhwkplbPS95l9Lh8JRhmhL_OrOM8vpBWr1lGnH8zXS9w5T_ypMWCX7EGJug5VpHkjGDF9QC7NWQnTod5DvXlSL"
@@ -17,7 +19,8 @@
             </div>
             <!-- Slide 2 -->
             <div
-                class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out"
+                class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out will-change-[opacity]"
+                style="transform: translateZ(0);"
             >
                 <img
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_TPH8yxj0bjXGyZUwFqE_P0ZQd-vq8NLzB5MXr11p6TSvHyL2yHfahm_Wc5MJPPrQvqtDGawMkRWGExzXUvrrNwG-WE8DoRsRRnEId2M_6pwKzgjRnhT4DmkkjtK47kKzrr00GkdWY3ho5sh4OZ3HDMWCmwQLPoPq5qGKDuiUwddfex04Cc_nnhAhwkplbPS95l9Lh8JRhmhL_OrOM8vpBWr1lGnH8zXS9w5T_ypMWCX7EGJug5VpHkjGDF9QC7NWQnTod5DvXlSL"
@@ -27,7 +30,8 @@
             </div>
             <!-- Slide 3 -->
             <div
-                class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out"
+                class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out will-change-[opacity]"
+                style="transform: translateZ(0);"
             >
                 <img
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_TPH8yxj0bjXGyZUwFqE_P0ZQd-vq8NLzB5MXr11p6TSvHyL2yHfahm_Wc5MJPPrQvqtDGawMkRWGExzXUvrrNwG-WE8DoRsRRnEId2M_6pwKzgjRnhT4DmkkjtK47kKzrr00GkdWY3ho5sh4OZ3HDMWCmwQLPoPq5qGKDuiUwddfex04Cc_nnhAhwkplbPS95l9Lh8JRhmhL_OrOM8vpBWr1lGnH8zXS9w5T_ypMWCX7EGJug5VpHkjGDF9QC7NWQnTod5DvXlSL"
@@ -170,17 +174,42 @@
         );
     }
 
-    // Save Date Logic
+    // Save Date Logic - Native ICS
     const saveDateBtn = document.getElementById("save-date-btn");
     if (saveDateBtn) {
         saveDateBtn.addEventListener("click", () => {
             const title = "Pernikahan Mempelai Pria & Wanita";
-            const details = "Acara resepsi pernikahan di Jakarta.";
             const location = "The Grand Ballroom, Luxury Hotel, Jakarta";
-            const start = "20260324T090000";
-            const end = "20260324T130000";
-            const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&dates=${start}/${end}`;
-            window.open(googleUrl, "_blank");
+            const description =
+                "Acara resepsi pernikahan Mempelai Pria & Wanita. Mohon doa restu.";
+            const startDate = "20260324T090000";
+            const endDate = "20260324T130000";
+
+            // Build ICS Content
+            const icsContent = [
+                "BEGIN:VCALENDAR",
+                "VERSION:2.0",
+                "PRODID:-//Wedding Invitation//ID",
+                "BEGIN:VEVENT",
+                `DTSTART:${startDate}`,
+                `DTEND:${endDate}`,
+                `SUMMARY:${title}`,
+                `LOCATION:${location}`,
+                `DESCRIPTION:${description}`,
+                "END:VEVENT",
+                "END:VCALENDAR",
+            ].join("\r\n");
+
+            const blob = new Blob([icsContent], {
+                type: "text/calendar;charset=utf-8",
+            });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", "pernikahan.ics");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         });
     }
 </script>
