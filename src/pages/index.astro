@@ -5,9 +5,12 @@ import Countdown from "../components/Countdown.astro";
 import Details from "../components/Details.astro";
 import Quotes from "../components/Quotes.astro";
 import Guestbook from "../components/Guestbook.astro";
-import Navigation from "../components/Navigation.astro";
 import InvitationModal from "../components/InvitationModal.astro";
 import FloatingDecor from "../components/FloatingDecor.astro";
+import GallerySlider from "../components/GallerySlider.astro";
+import WeddingGift from "../components/WeddingGift.astro";
+import Footer from "../components/Footer.astro";
+import MusicPlayer from "../components/MusicPlayer.astro";
 ---
 
 <html lang="en" class="scroll-smooth">
@@ -34,7 +37,7 @@ import FloatingDecor from "../components/FloatingDecor.astro";
 
 		<main
 			id="main-content"
-			class="relative flex h-auto min-h-svh w-full flex-col overflow-x-hidden pb-40 content-blur"
+			class="relative flex h-auto min-h-svh w-full flex-col overflow-x-hidden content-blur"
 		>
 			<!-- Hero Section - Background is static, content reveals -->
 			<Hero />
@@ -46,7 +49,7 @@ import FloatingDecor from "../components/FloatingDecor.astro";
 
 			<!-- Formal Greeting Section -->
 			<div class="reveal">
-				<div class="max-w-4xl mx-auto text-center pt-4 pb-12 px-6">
+				<div class="max-w-4xl mx-auto text-center pt-2 pb-6 px-6">
 					<h2
 						class="text-gold uppercase tracking-[0.4em] text-[10px] lg:text-xs font-bold mb-8"
 					>
@@ -85,25 +88,16 @@ import FloatingDecor from "../components/FloatingDecor.astro";
 			</div>
 
 			<div class="reveal">
-				<!-- Horizontal Highlight Image -->
-				<div class="px-6 pb-20 max-w-7xl mx-auto">
-					<div
-						class="relative w-full aspect-video lg:aspect-21/9 overflow-hidden rounded-32 shadow-2xl shadow-charcoal/10 bg-cream"
-					>
-						<img
-							src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_TPH8yxj0bjXGyZUwFqE_P0ZQd-vq8NLzB5MXr11p6TSvHyL2yHfahm_Wc5MJPPrQvqtDGawMkRWGExzXUvrrNwG-WE8DoRsRRnEId2M_6pwKzgjRnhT4DmkkjtK47kKzrr00GkdWY3ho5sh4OZ3HDMWCmwQLPoPq5qGKDuiUwddfex04Cc_nnhAhwkplbPS95l9Lh8JRhmhL_OrOM8vpBWr1lGnH8zXS9w5T_ypMWCX7EGJug5VpHkjGDF9QC7NWQnTod5DvXlSL"
-							alt="Wedding Moment"
-							class="w-full h-full object-cover object-center transform-none"
-						/>
-						<div class="absolute inset-0 bg-charcoal/5"></div>
-					</div>
-				</div>
+				<!-- Horizontal Highlight Image - Now Swipeable Gallery -->
+				<GallerySlider />
 			</div>
 
-			<div class="reveal"><Details /></div>
 			<div class="reveal"><Quotes /></div>
+			<div class="reveal"><Details /></div>
+			<div class="reveal"><WeddingGift /></div>
 			<div class="reveal"><Guestbook /></div>
-			<Navigation />
+			<Footer />
+			<MusicPlayer />
 			<FloatingDecor />
 		</main>
 
@@ -139,8 +133,8 @@ import FloatingDecor from "../components/FloatingDecor.astro";
 				if (isOpened) return;
 				isOpened = true;
 
-				// Save state to localStorage
-				localStorage.setItem("invitationOpened", "true");
+				// Save state to sessionStorage
+				sessionStorage.setItem("invitationOpened", "true");
 
 				document.body.classList.remove("modal-active");
 				if (mainContent) mainContent.classList.remove("content-blur");
@@ -160,8 +154,8 @@ import FloatingDecor from "../components/FloatingDecor.astro";
 				}
 			}
 
-			// Check if already opened before
-			if (localStorage.getItem("invitationOpened") === "true") {
+			// Check if already opened before in this session
+			if (sessionStorage.getItem("invitationOpened") === "true") {
 				isOpened = true;
 				document.body.classList.remove("modal-active");
 				if (mainContent) mainContent.classList.remove("content-blur");

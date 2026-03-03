@@ -1,0 +1,208 @@
+---
+
+---
+
+<div
+    id="music-wrapper"
+    class="fixed bottom-10 right-6 z-50 translate-y-20 opacity-0 transition-all duration-700 pointer-events-none"
+>
+    <div class="flex flex-col items-end gap-2">
+        <!-- Hover Progress Bar -->
+        <div
+            class="w-20 h-1 bg-charcoal/20 backdrop-blur-md rounded-full overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        >
+            <div id="h-progress" class="h-full bg-gold" style="width: 0%"></div>
+        </div>
+
+        <div class="relative group pointer-events-auto">
+            <!-- Circular Progress Ring -->
+            <svg
+                class="absolute inset-0 w-14 h-14 -rotate-90 pointer-events-none"
+                viewBox="0 0 100 100"
+            >
+                <circle
+                    cx="50"
+                    cy="50"
+                    r="46"
+                    stroke="rgba(176,141,87,0.1)"
+                    stroke-width="4"
+                    fill="transparent"></circle>
+                <circle
+                    id="c-progress"
+                    cx="50"
+                    cy="50"
+                    r="46"
+                    stroke="#b08d57"
+                    stroke-width="4"
+                    fill="transparent"
+                    stroke-dasharray="289"
+                    stroke-dashoffset="289"
+                    style="transition: stroke-dashoffset 0.1s linear;"></circle>
+            </svg>
+
+            <!-- Main Toggle Button -->
+            <button
+                id="main-music-btn"
+                class="w-14 h-14 bg-charcoal/90 backdrop-blur-xl rounded-full shadow-2xl border border-white/10 flex items-center justify-center cursor-pointer hover:scale-105 active:scale-90 transition-all text-gold z-10"
+                aria-label="Toggle Music"
+            >
+                <!-- Music Animation Bars -->
+                <div id="bars-container" class="flex items-end gap-[3px] h-4">
+                    <div class="music-bar w-[3px] bg-gold animate-music-bar-1">
+                    </div>
+                    <div class="music-bar w-[3px] bg-gold animate-music-bar-2">
+                    </div>
+                    <div class="music-bar w-[3px] bg-gold animate-music-bar-3">
+                    </div>
+                </div>
+                <!-- Play Icon (Hidden initially) -->
+                <span
+                    id="play-icon-svg"
+                    class="material-symbols-outlined hidden text-3xl"
+                    >play_circle</span
+                >
+            </button>
+        </div>
+    </div>
+
+    <!-- Hidden audio source -->
+    <audio id="main-audio-el" loop preload="auto">
+        <source src="/sound/janjisuci.mp3" type="audio/mpeg" />
+    </audio>
+</div>
+
+<script is:inline>
+    (function () {
+        const wrapper = document.getElementById("music-wrapper");
+        const audio = document.getElementById("main-audio-el");
+        const btn = document.getElementById("main-music-btn");
+        const bars = document.getElementById("bars-container");
+        const icon = document.getElementById("play-icon-svg");
+        const circle = document.getElementById("c-progress");
+        const barH = document.getElementById("h-progress");
+
+        let isPlaying = false;
+        const circumference = 289;
+
+        // Initialize state
+        function initPlayer() {
+            const isOpened =
+                sessionStorage.getItem("invitationOpened") === "true";
+            if (isOpened) {
+                wrapper.classList.remove(
+                    "translate-y-20",
+                    "opacity-0",
+                    "pointer-events-none",
+                );
+                wrapper.classList.add("translate-y-0", "opacity-100");
+
+                // Audio might be blocked until interaction, but we try
+                audio
+                    .play()
+                    .then(() => {
+                        updateUI(true);
+                    })
+                    .catch(() => {
+                        updateUI(false);
+                    });
+            }
+        }
+
+        function updateUI(playing) {
+            isPlaying = playing;
+            if (playing) {
+                bars.classList.remove("hidden");
+                icon.classList.add("hidden");
+                document
+                    .querySelectorAll(".music-bar")
+                    .forEach((b) => (b.style.animationPlayState = "running"));
+            } else {
+                bars.classList.add("hidden");
+                icon.classList.remove("hidden");
+                document
+                    .querySelectorAll(".music-bar")
+                    .forEach((b) => (b.style.animationPlayState = "paused"));
+            }
+        }
+
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (audio.paused) {
+                audio
+                    .play()
+                    .then(() => updateUI(true))
+                    .catch((err) => console.error("Play failed:", err));
+            } else {
+                audio.pause();
+                updateUI(false);
+            }
+        });
+
+        audio.addEventListener("timeupdate", () => {
+            if (audio.duration) {
+                const percent = audio.currentTime / audio.duration;
+                // Update circle
+                circle.style.strokeDashoffset =
+                    circumference - percent * circumference;
+                // Update horizontal bar
+                if (barH) barH.style.width = percent * 100 + "%";
+            }
+        });
+
+        // Event listener for invitation open
+        window.addEventListener("load", initPlayer);
+
+        // Backup checker
+        const checkInterval = setInterval(() => {
+            if (
+                sessionStorage.getItem("invitationOpened") === "true" &&
+                wrapper.classList.contains("pointer-events-none")
+            ) {
+                initPlayer();
+                clearInterval(checkInterval);
+            }
+        }, 800);
+    })();
+</script>
+
+<style>
+    @keyframes music-bar-1 {
+        0%,
+        100% {
+            height: 4px;
+        }
+        50% {
+            height: 16px;
+        }
+    }
+    @keyframes music-bar-2 {
+        0%,
+        100% {
+            height: 12px;
+        }
+        50% {
+            height: 4px;
+        }
+    }
+    @keyframes music-bar-3 {
+        0%,
+        100% {
+            height: 8px;
+        }
+        50% {
+            height: 14px;
+        }
+    }
+
+    .animate-music-bar-1 {
+        animation: music-bar-1 1s ease-in-out infinite;
+    }
+    .animate-music-bar-2 {
+        animation: music-bar-2 0.8s ease-in-out infinite;
+    }
+    .animate-music-bar-3 {
+        animation: music-bar-3 1.2s ease-in-out infinite;
+    }
+</style>

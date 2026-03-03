@@ -1,0 +1,131 @@
+---
+
+---
+
+<section id="wedding-gift" class="py-16 px-6 bg-cream">
+    <div class="max-w-4xl mx-auto text-center">
+        <!-- Section Header -->
+        <div class="mb-12 reveal">
+            <h2
+                class="text-gold uppercase tracking-[0.4em] text-[10px] lg:text-xs font-bold mb-4"
+            >
+                Wedding Gift
+            </h2>
+            <h3
+                class="text-3xl lg:text-5xl font-serif text-charcoal italic mb-6"
+            >
+                Kado Pernikahan
+            </h3>
+            <p
+                class="text-charcoal/60 text-sm lg:text-base max-w-lg mx-auto leading-relaxed"
+            >
+                Doa restu Anda merupakan karunia yang sangat berarti bagi kami.
+                Namun, apabila Anda ingin memberikan tanda kasih, Anda dapat
+                memberikannya melalui dompet digital atau transfer bank berikut:
+            </p>
+        </div>
+
+        <!-- Compact Single Gift Card -->
+        <div
+            class="max-w-md mx-auto bg-white rounded-32 p-8 lg:p-10 shadow-xl shadow-charcoal/5 reveal border border-gold/10"
+        >
+            <div class="flex flex-col items-center text-center">
+                <!-- BCA Logo -->
+                <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg"
+                    alt="BCA Logo"
+                    class="h-5 object-contain mb-8 opacity-80"
+                />
+
+                <!-- Account Selection/Info -->
+                <div class="space-y-1 mb-6">
+                    <p
+                        class="text-[9px] uppercase tracking-widest text-gold font-bold"
+                    >
+                        Nomor Rekening
+                    </p>
+                    <!-- GANTI NOMOR REKENING DI SINI -->
+                    <h4
+                        id="account-number"
+                        class="text-xl font-bold text-charcoal tracking-wider"
+                    >
+                        1234567890
+                    </h4>
+                    <p class="text-[11px] text-charcoal/60 font-medium">
+                        a.n Mempelai Wanita
+                    </p>
+                </div>
+
+                <!-- Copy Btn -->
+                <button
+                    id="copy-btn"
+                    class="w-full max-w-[240px] px-6 py-3 bg-charcoal text-cream rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-gold transition-all duration-500 flex items-center justify-center gap-2 cursor-pointer active:scale-95 mb-10"
+                >
+                    Salin No. Rekening
+                </button>
+
+                <!-- Divider -->
+                <div
+                    class="relative w-full h-px bg-gold/10 mb-10 flex justify-center items-center"
+                >
+                    <span
+                        class="bg-white px-4 text-[9px] text-gold uppercase tracking-[0.3em] font-bold"
+                        >Atau Scan QR</span
+                    >
+                </div>
+
+                <!-- QR Code Info -->
+                <div
+                    class="relative w-36 h-36 bg-cream-dark/30 rounded-2xl flex items-center justify-center overflow-hidden border border-gold/5"
+                >
+                    <!-- 
+                         GANTI URL GAMBAR BARCODE / QRIS DI SINI 
+                    -->
+                    <img
+                        src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Wedding-Payment"
+                        alt="QR Code Payment"
+                        class="w-[85%] h-[85%] object-contain"
+                    />
+                </div>
+
+                <p
+                    id="copy-success"
+                    class="text-[9px] text-gold font-bold uppercase opacity-0 transition-opacity h-4 mt-2"
+                >
+                    Berhasil Disalin!
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script is:inline>
+    // Copy to Clipboard Logic
+    const copyBtn = document.getElementById("copy-btn");
+    const accountNum = document.getElementById("account-number");
+    const successMsg = document.getElementById("copy-success");
+
+    if (copyBtn && accountNum) {
+        copyBtn.addEventListener("click", () => {
+            const textToCopy = accountNum.textContent;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Show success message
+                if (successMsg) {
+                    successMsg.style.opacity = "1";
+                    copyBtn.classList.add("bg-gold");
+
+                    setTimeout(() => {
+                        successMsg.style.opacity = "0";
+                        copyBtn.classList.remove("bg-gold");
+                    }, 2000);
+                }
+            });
+        });
+    }
+</script>
+
+<style>
+    .rounded-32 {
+        border-radius: 32px;
+    }
+</style>

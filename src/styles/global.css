@@ -22,7 +22,6 @@
     body {
         @apply bg-cream text-charcoal font-display antialiased;
         min-height: 100svh;
-        overscroll-behavior-y: none;
         user-select: none;
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -30,8 +29,7 @@
     }
 
     html {
-        overscroll-behavior-y: none;
-        height: 100svh;
+        min-height: 100svh;
     }
 }
 

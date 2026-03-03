@@ -2,17 +2,17 @@
 
 ---
 
-<section id="guestbook" class="py-20 px-6 bg-cream overflow-hidden">
+<section id="guestbook" class="py-12 px-6 bg-cream overflow-hidden">
     <div class="max-w-4xl mx-auto">
         <!-- Section Header -->
-        <div class="text-center mb-16 reveal">
+        <div class="text-center mb-8 reveal">
             <h2
-                class="text-gold uppercase tracking-[0.4em] text-[10px] lg:text-xs font-bold mb-4"
+                class="text-gold uppercase tracking-[0.4em] text-[10px] lg:text-xs font-bold mb-3"
             >
                 Guestbook
             </h2>
             <h3
-                class="text-3xl lg:text-5xl font-serif text-charcoal italic mb-6"
+                class="text-3xl lg:text-5xl font-serif text-charcoal italic mb-4"
             >
                 Ucapan & Doa Restu
             </h3>
@@ -23,12 +23,52 @@
             </p>
         </div>
 
-        <!-- Guestbook Form -->
+        <!-- Comments Display List (Moved Above Form) -->
+        <div id="comments-container" class="space-y-4 relative mb-8">
+            <div id="comments-list" class="space-y-4"></div>
+
+            <!-- Empty State -->
+            <div id="no-comments" class="hidden text-center py-10">
+                <p class="text-charcoal/40 italic text-sm">
+                    Belum ada ucapan. Jadilah yang pertama!
+                </p>
+            </div>
+        </div>
+
+        <!-- Pagination -->
         <div
-            class="bg-white rounded-32 shadow-2xl shadow-charcoal/5 p-8 lg:p-12 mb-16 reveal"
+            id="pagination"
+            class="flex justify-center items-center gap-4 mb-12 reveal"
         >
-            <form id="guestbook-form" class="space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <button
+                id="prev-page"
+                class="p-2 rounded-full border border-gold/20 text-gold hover:bg-gold hover:text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+                <span class="material-symbols-outlined text-sm">arrow_back</span
+                >
+            </button>
+            <div
+                id="page-numbers"
+                class="flex gap-2 text-[10px] font-bold text-gold"
+            >
+                <!-- Page numbers injected here -->
+            </div>
+            <button
+                id="next-page"
+                class="p-2 rounded-full border border-gold/20 text-gold hover:bg-gold hover:text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+                <span class="material-symbols-outlined text-sm"
+                    >arrow_forward</span
+                >
+            </button>
+        </div>
+
+        <!-- Guestbook Form (Moved Below Comments) -->
+        <div
+            class="bg-white rounded-32 shadow-2xl shadow-charcoal/5 p-6 lg:p-10 reveal"
+        >
+            <form id="guestbook-form" class="space-y-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div class="space-y-2">
                         <label
                             for="guest-name"
@@ -40,7 +80,7 @@
                             id="guest-name"
                             name="name"
                             placeholder="Masukkan nama Anda"
-                            class="w-full bg-cream-dark/30 border-b border-gold/20 py-3 px-4 focus:outline-none focus:border-gold transition-colors text-charcoal text-sm placeholder:text-charcoal/30"
+                            class="w-full bg-cream-dark/30 border-b border-gold/20 py-2.5 px-4 focus:outline-none focus:border-gold transition-colors text-charcoal text-sm placeholder:text-charcoal/30"
                             required
                         />
                     </div>
@@ -53,7 +93,7 @@
                         <select
                             id="attendance"
                             name="attendance"
-                            class="w-full bg-cream-dark/30 border-b border-gold/20 py-3 px-4 focus:outline-none focus:border-gold transition-colors text-charcoal text-sm appearance-none cursor-pointer"
+                            class="w-full bg-cream-dark/30 border-b border-gold/20 py-2.5 px-4 focus:outline-none focus:border-gold transition-colors text-charcoal text-sm appearance-none cursor-pointer"
                         >
                             <option value="Hadir">Hadir</option>
                             <option value="Kemungkinan Hadir"
@@ -71,9 +111,9 @@
                     <textarea
                         id="message"
                         name="message"
-                        rows="4"
+                        rows="3"
                         placeholder="Tuliskan ucapan Anda di sini..."
-                        class="w-full bg-cream-dark/30 border-b border-gold/20 py-3 px-4 focus:outline-none focus:border-gold transition-colors text-charcoal text-sm placeholder:text-charcoal/30 resize-none"
+                        class="w-full bg-cream-dark/30 border-b border-gold/20 py-2.5 px-4 focus:outline-none focus:border-gold transition-colors text-charcoal text-sm placeholder:text-charcoal/30 resize-none"
                         required></textarea>
                 </div>
                 <button
@@ -85,60 +125,16 @@
                 </button>
             </form>
         </div>
-
-        <!-- Comments Display List -->
-        <div
-            id="comments-container"
-            class="space-y-6 relative mb-12 min-h-[400px]"
-        >
-            <!-- Comments will be injected here via JS -->
-            <div id="comments-list" class="space-y-6"></div>
-
-            <!-- Skeleton/Empty State if needed -->
-            <div id="no-comments" class="hidden text-center py-20">
-                <p class="text-charcoal/40 italic">
-                    Belum ada ucapan. Jadilah yang pertama!
-                </p>
-            </div>
-        </div>
-
-        <!-- Pagination -->
-        <div
-            id="pagination"
-            class="flex justify-center items-center gap-4 reveal"
-        >
-            <button
-                id="prev-page"
-                class="p-2 rounded-full border border-gold/20 text-gold hover:bg-gold hover:text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-            >
-                <span class="material-symbols-outlined text-sm">arrow_back</span
-                >
-            </button>
-            <div
-                id="page-numbers"
-                class="flex gap-2 text-xs font-bold text-gold"
-            >
-                <!-- Page numbers injected here -->
-            </div>
-            <button
-                id="next-page"
-                class="p-2 rounded-full border border-gold/20 text-gold hover:bg-gold hover:text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-            >
-                <span class="material-symbols-outlined text-sm"
-                    >arrow_forward</span
-                >
-            </button>
-        </div>
     </div>
 
-    <!-- Hidden Admin Toggle (Triple click on header) -->
+    <!-- Hidden Admin Toggle -->
     <div id="admin-trigger" class="hidden"></div>
 </section>
 
 <script is:inline>
     // Guestbook Logic
     const STORAGE_KEY = "wedding_guestbook_comments";
-    const ITEMS_PER_PAGE = 5;
+    const ITEMS_PER_PAGE = 3; // MODIFIED: 3 comments per page
     let currentPage = 1;
     let isAdmin = localStorage.getItem("guestbook_admin") === "true";
 
@@ -149,7 +145,7 @@
     const prevBtn = document.getElementById("prev-page");
     const nextBtn = document.getElementById("next-page");
 
-    // Admin Toggle (Triple click header to toggle)
+    // Admin Toggle
     document.querySelector("#guestbook h3").addEventListener("click", (e) => {
         if (e.detail === 3) {
             isAdmin = !isAdmin;
@@ -182,7 +178,6 @@
         noComments.classList.add("hidden");
         document.getElementById("pagination").classList.remove("hidden");
 
-        // Pagination bounds
         const start = (currentPage - 1) * ITEMS_PER_PAGE;
         const end = start + ITEMS_PER_PAGE;
         const pageComments = comments.slice(start, end);
@@ -190,34 +185,33 @@
         commentsList.innerHTML = pageComments
             .map(
                 (c, index) => `
-            <div class="bg-white/50 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gold/5 flex flex-col gap-2 relative comment-item">
+            <div class="bg-white/50 backdrop-blur-sm rounded-2xl p-5 shadow-sm border border-gold/5 flex flex-col gap-1 relative comment-item">
                 <div class="flex justify-between items-start">
                     <div>
-                        <h4 class="text-gold font-bold text-sm uppercase tracking-wider">${c.name}</h4>
-                        <span class="text-[10px] text-charcoal/40 uppercase font-medium">${c.attendance} • ${c.date}</span>
+                        <h4 class="text-gold font-bold text-[11px] uppercase tracking-wider">${c.name}</h4>
+                        <span class="text-[9px] text-charcoal/40 uppercase font-medium">${c.attendance} • ${c.date}</span>
                     </div>
                     ${
                         isAdmin
                             ? `
-                        <button onclick="deleteComment(${start + index})" class="text-red-400 hover:text-red-600 p-1 transition-colors">
+                        <button onclick="deleteComment(${(currentPage - 1) * ITEMS_PER_PAGE + index})" class="text-red-400 hover:text-red-600 p-1 transition-colors">
                             <span class="material-symbols-outlined text-sm">delete</span>
                         </button>
                     `
                             : ""
                     }
                 </div>
-                <p class="text-charcoal/80 text-sm leading-relaxed italic">"${c.message}"</p>
+                <p class="text-charcoal/80 text-[13px] leading-relaxed italic">"${c.message}"</p>
             </div>
         `,
             )
             .join("");
 
-        // Render Page Numbers
         pageNumbers.innerHTML = "";
         for (let i = 1; i <= totalPages; i++) {
             const span = document.createElement("span");
             span.textContent = i;
-            span.className = `w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-all ${i === currentPage ? "bg-gold text-white" : "hover:bg-gold/10"}`;
+            span.className = `w-7 h-7 rounded-full flex items-center justify-center cursor-pointer transition-all ${i === currentPage ? "bg-gold text-white" : "hover:bg-gold/10"}`;
             span.onclick = () => {
                 currentPage = i;
                 renderComments();
@@ -235,7 +229,6 @@
         comments.splice(index, 1);
         saveComments(comments);
 
-        // Adjust page if current page becomes empty
         const newTotalPages = Math.ceil(comments.length / ITEMS_PER_PAGE);
         if (currentPage > newTotalPages && currentPage > 1) {
             currentPage = newTotalPages;
@@ -266,20 +259,18 @@
         };
 
         const comments = getComments();
-        comments.unshift(newComment); // Newest first
+        comments.unshift(newComment);
         saveComments(comments);
 
         form.reset();
-        currentPage = 1; // Back to first page to see the new comment
+        currentPage = 1;
         renderComments();
 
-        // Optional: Scroll to top of comments
         document
             .getElementById("comments-container")
             .scrollIntoView({ behavior: "smooth", block: "start" });
     });
 
-    // Navigation buttons
     prevBtn.onclick = () => {
         if (currentPage > 1) {
             currentPage--;
@@ -294,7 +285,6 @@
         }
     };
 
-    // Initial Render
     renderComments();
 </script>
 
@@ -310,13 +300,12 @@
         transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
-    /* Luxury Hover Effect for Form Fields */
     #guestbook-form input:hover,
     #guestbook-form select:hover,
     #guestbook-form textarea:hover {
         background-color: rgba(176, 141, 87, 0.05);
         border-bottom-color: #b08d57;
-        transform: translateY(-2px);
+        transform: translateY(-1px);
     }
 
     #guestbook-form input:focus,
@@ -325,10 +314,9 @@
         background-color: rgba(176, 141, 87, 0.08);
         border-bottom-color: #d4af37;
         box-shadow: 0 4px 12px rgba(176, 141, 87, 0.05);
-        transform: translateY(-2px);
+        transform: translateY(-1px);
     }
 
-    /* Attendance Hover specific highlight */
     .attendance-container {
         position: relative;
     }
@@ -337,18 +325,13 @@
         content: "\25BC";
         position: absolute;
         right: 15px;
-        top: 40px;
-        font-size: 10px;
+        top: 38px;
+        font-size: 8px;
         color: #b08d57;
         pointer-events: none;
         transition: transform 0.3s ease;
     }
 
-    .attendance-container:hover::after {
-        transform: translateY(2px);
-    }
-
-    /* Comment Item Animation on Render */
     .comment-item {
         animation: fade-in-up 0.6s ease-out forwards;
     }
@@ -356,7 +339,7 @@
     @keyframes fade-in-up {
         from {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(15px);
         }
         to {
             opacity: 1;

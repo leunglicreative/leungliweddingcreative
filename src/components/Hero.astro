@@ -1,14 +1,14 @@
 <section
     id="hero"
     class="relative w-full h-[85svh] lg:h-[90vh] flex flex-col items-center justify-end overflow-hidden pb-16 lg:pb-24 touch-pan-y"
-    style="overscroll-behavior-y: none; perspective: 1000px;"
+    style="perspective: 1000px;"
 >
     <!-- Background Carousel -->
     <div class="absolute inset-0 z-0 bg-charcoal transform-gpu translate-z-0">
         <div id="hero-carousel" class="relative w-full h-full">
             <!-- Slide 1 -->
             <div
-                class="carousel-slide absolute inset-0 opacity-100 transition-opacity duration-1000 ease-in-out will-change-[opacity]"
+                class="carousel-slide absolute inset-0 opacity-100 transition-opacity duration-1000 ease-in-out will-change-[opacity] pointer-events-none"
                 style="transform: translate3d(0, 0, 0); backface-visibility: hidden; -webkit-backface-visibility: hidden;"
             >
                 <img
@@ -19,7 +19,7 @@
             </div>
             <!-- Slide 2 -->
             <div
-                class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out will-change-[opacity]"
+                class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out will-change-[opacity] pointer-events-none"
                 style="transform: translate3d(0, 0, 0); backface-visibility: hidden; -webkit-backface-visibility: hidden;"
             >
                 <img
@@ -30,7 +30,7 @@
             </div>
             <!-- Slide 3 -->
             <div
-                class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out will-change-[opacity]"
+                class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out will-change-[opacity] pointer-events-none"
                 style="transform: translate3d(0, 0, 0); backface-visibility: hidden; -webkit-backface-visibility: hidden;"
             >
                 <img
@@ -40,9 +40,10 @@
                 />
             </div>
             <!-- Dark Overlay for Readability -->
-            <div class="absolute inset-0 bg-charcoal/30"></div>
+            <div class="absolute inset-0 bg-charcoal/30 pointer-events-none">
+            </div>
             <div
-                class="absolute inset-0 bg-linear-to-t from-charcoal/90 via-charcoal/40 to-transparent"
+                class="absolute inset-0 bg-linear-to-t from-charcoal/90 via-charcoal/40 to-transparent pointer-events-none"
             >
             </div>
         </div>
@@ -50,22 +51,6 @@
 
     <!-- Combined Content Area at the Bottom -->
     <div class="relative z-10 w-full flex flex-col items-center">
-        <!-- Indicators - Now positioned closely above the text -->
-        <div class="flex gap-2 mb-8 opacity-80 animate-fade-in-up">
-            <div
-                class="carousel-dot w-6 h-1.5 rounded-full bg-gold transition-all duration-500"
-            >
-            </div>
-            <div
-                class="carousel-dot w-1.5 h-1.5 rounded-full bg-cream/30 transition-all duration-500"
-            >
-            </div>
-            <div
-                class="carousel-dot w-1.5 h-1.5 rounded-full bg-cream/30 transition-all duration-500"
-            >
-            </div>
-        </div>
-
         <!-- Text content -->
         <div
             id="calendar"
@@ -103,6 +88,22 @@
                 >
                 </div>
             </button>
+        </div>
+
+        <!-- Indicators - Now positioned below the button -->
+        <div class="flex gap-2 mt-12 opacity-80 animate-fade-in-up">
+            <div
+                class="carousel-dot w-6 h-1.5 rounded-full bg-gold transition-all duration-500"
+            >
+            </div>
+            <div
+                class="carousel-dot w-1.5 h-1.5 rounded-full bg-cream/30 transition-all duration-500"
+            >
+            </div>
+            <div
+                class="carousel-dot w-1.5 h-1.5 rounded-full bg-cream/30 transition-all duration-500"
+            >
+            </div>
         </div>
     </div>
 </section>
