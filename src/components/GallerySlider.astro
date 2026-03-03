@@ -183,9 +183,21 @@ const {
 </script>
 
 <style>
-    /* Prevent text selection and image dragging during swipe */
     .gallery-slider-wrapper {
         user-select: none;
         -webkit-user-drag: none;
+        touch-action: pan-y; /* Allow vertical scroll, block horizontal/zoom */
+    }
+
+    #gallery-slider {
+        touch-action: pan-y;
+        will-change: transform;
+    }
+
+    .gallery-item img {
+        pointer-events: none;
+        -webkit-user-drag: none;
+        user-select: none;
+        touch-action: none;
     }
 </style>
