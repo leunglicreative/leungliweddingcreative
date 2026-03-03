@@ -1,7 +1,7 @@
 <section
     id="hero"
-    class="relative w-full h-[85vh] lg:h-[90vh] flex flex-col items-center justify-end overflow-hidden pb-16 lg:pb-24 touch-pan-y"
-    style="overscroll-behavior-y: none;"
+    class="relative w-full h-[85svh] lg:h-[90vh] flex flex-col items-center justify-end overflow-hidden pb-16 lg:pb-24 touch-pan-y"
+    style="overscroll-behavior-y: none; perspective: 1000px;"
 >
     <!-- Background Carousel -->
     <div class="absolute inset-0 z-0 bg-charcoal transform-gpu translate-z-0">
@@ -9,7 +9,7 @@
             <!-- Slide 1 -->
             <div
                 class="carousel-slide absolute inset-0 opacity-100 transition-opacity duration-1000 ease-in-out will-change-[opacity]"
-                style="transform: translateZ(0);"
+                style="transform: translate3d(0, 0, 0); backface-visibility: hidden; -webkit-backface-visibility: hidden;"
             >
                 <img
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_TPH8yxj0bjXGyZUwFqE_P0ZQd-vq8NLzB5MXr11p6TSvHyL2yHfahm_Wc5MJPPrQvqtDGawMkRWGExzXUvrrNwG-WE8DoRsRRnEId2M_6pwKzgjRnhT4DmkkjtK47kKzrr00GkdWY3ho5sh4OZ3HDMWCmwQLPoPq5qGKDuiUwddfex04Cc_nnhAhwkplbPS95l9Lh8JRhmhL_OrOM8vpBWr1lGnH8zXS9w5T_ypMWCX7EGJug5VpHkjGDF9QC7NWQnTod5DvXlSL"
@@ -20,7 +20,7 @@
             <!-- Slide 2 -->
             <div
                 class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out will-change-[opacity]"
-                style="transform: translateZ(0);"
+                style="transform: translate3d(0, 0, 0); backface-visibility: hidden; -webkit-backface-visibility: hidden;"
             >
                 <img
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_TPH8yxj0bjXGyZUwFqE_P0ZQd-vq8NLzB5MXr11p6TSvHyL2yHfahm_Wc5MJPPrQvqtDGawMkRWGExzXUvrrNwG-WE8DoRsRRnEId2M_6pwKzgjRnhT4DmkkjtK47kKzrr00GkdWY3ho5sh4OZ3HDMWCmwQLPoPq5qGKDuiUwddfex04Cc_nnhAhwkplbPS95l9Lh8JRhmhL_OrOM8vpBWr1lGnH8zXS9w5T_ypMWCX7EGJug5VpHkjGDF9QC7NWQnTod5DvXlSL"
@@ -31,7 +31,7 @@
             <!-- Slide 3 -->
             <div
                 class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out will-change-[opacity]"
-                style="transform: translateZ(0);"
+                style="transform: translate3d(0, 0, 0); backface-visibility: hidden; -webkit-backface-visibility: hidden;"
             >
                 <img
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_TPH8yxj0bjXGyZUwFqE_P0ZQd-vq8NLzB5MXr11p6TSvHyL2yHfahm_Wc5MJPPrQvqtDGawMkRWGExzXUvrrNwG-WE8DoRsRRnEId2M_6pwKzgjRnhT4DmkkjtK47kKzrr00GkdWY3ho5sh4OZ3HDMWCmwQLPoPq5qGKDuiUwddfex04Cc_nnhAhwkplbPS95l9Lh8JRhmhL_OrOM8vpBWr1lGnH8zXS9w5T_ypMWCX7EGJug5VpHkjGDF9QC7NWQnTod5DvXlSL"
@@ -174,7 +174,7 @@
         );
     }
 
-    // Save Date Logic - Native ICS
+    // Save Date Logic - Google Calendar (No Download)
     const saveDateBtn = document.getElementById("save-date-btn");
     if (saveDateBtn) {
         saveDateBtn.addEventListener("click", () => {
@@ -185,31 +185,9 @@
             const startDate = "20260324T090000";
             const endDate = "20260324T130000";
 
-            // Build ICS Content
-            const icsContent = [
-                "BEGIN:VCALENDAR",
-                "VERSION:2.0",
-                "PRODID:-//Wedding Invitation//ID",
-                "BEGIN:VEVENT",
-                `DTSTART:${startDate}`,
-                `DTEND:${endDate}`,
-                `SUMMARY:${title}`,
-                `LOCATION:${location}`,
-                `DESCRIPTION:${description}`,
-                "END:VEVENT",
-                "END:VCALENDAR",
-            ].join("\r\n");
+            const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
 
-            const blob = new Blob([icsContent], {
-                type: "text/calendar;charset=utf-8",
-            });
-            const url = window.URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.setAttribute("download", "pernikahan.ics");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            window.open(googleUrl, "_blank");
         });
     }
 </script>

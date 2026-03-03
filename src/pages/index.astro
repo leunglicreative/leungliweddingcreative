@@ -4,6 +4,7 @@ import Hero from "../components/Hero.astro";
 import Countdown from "../components/Countdown.astro";
 import Details from "../components/Details.astro";
 import Quotes from "../components/Quotes.astro";
+import Guestbook from "../components/Guestbook.astro";
 import Navigation from "../components/Navigation.astro";
 import InvitationModal from "../components/InvitationModal.astro";
 import FloatingDecor from "../components/FloatingDecor.astro";
@@ -25,7 +26,7 @@ import FloatingDecor from "../components/FloatingDecor.astro";
 
 		<main
 			id="main-content"
-			class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden pb-40 content-blur"
+			class="relative flex h-auto min-h-svh w-full flex-col overflow-x-hidden pb-40 content-blur"
 		>
 			<!-- Hero Section - Background is static, content reveals -->
 			<Hero />
@@ -93,6 +94,7 @@ import FloatingDecor from "../components/FloatingDecor.astro";
 
 			<div class="reveal"><Details /></div>
 			<div class="reveal"><Quotes /></div>
+			<div class="reveal"><Guestbook /></div>
 			<Navigation />
 			<FloatingDecor />
 		</main>

@@ -1,0 +1,306 @@
+---
+
+---
+
+<section id="guestbook" class="py-20 px-6 bg-cream overflow-hidden">
+    <div class="max-w-4xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-16 reveal">
+            <h2
+                class="text-gold uppercase tracking-[0.4em] text-[10px] lg:text-xs font-bold mb-4"
+            >
+                Guestbook
+            </h2>
+            <h3
+                class="text-3xl lg:text-5xl font-serif text-charcoal italic mb-6"
+            >
+                Ucapan & Doa Restu
+            </h3>
+            <p
+                class="text-charcoal/60 text-sm lg:text-base max-w-lg mx-auto leading-relaxed"
+            >
+                Berikan ucapan manis dan doa restu Anda untuk kedua mempelai.
+            </p>
+        </div>
+
+        <!-- Guestbook Form -->
+        <div
+            class="bg-white rounded-32 shadow-2xl shadow-charcoal/5 p-8 lg:p-12 mb-16 reveal"
+        >
+            <form id="guestbook-form" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label
+                            for="guest-name"
+                            class="text-[10px] uppercase tracking-widest font-bold text-gold"
+                            >Nama Tamu</label
+                        >
+                        <input
+                            type="text"
+                            id="guest-name"
+                            name="name"
+                            placeholder="Masukkan nama Anda"
+                            class="w-full bg-cream-dark/30 border-b border-gold/20 py-3 px-4 focus:outline-none focus:border-gold transition-colors text-charcoal text-sm placeholder:text-charcoal/30"
+                            required
+                        />
+                    </div>
+                    <div class="space-y-2">
+                        <label
+                            for="attendance"
+                            class="text-[10px] uppercase tracking-widest font-bold text-gold"
+                            >Kehadiran</label
+                        >
+                        <select
+                            id="attendance"
+                            name="attendance"
+                            class="w-full bg-cream-dark/30 border-b border-gold/20 py-3 px-4 focus:outline-none focus:border-gold transition-colors text-charcoal text-sm appearance-none cursor-pointer"
+                        >
+                            <option value="Hadir">Hadir</option>
+                            <option value="Kemungkinan Hadir"
+                                >Kemungkinan Hadir</option
+                            >
+                        </select>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label
+                        for="message"
+                        class="text-[10px] uppercase tracking-widest font-bold text-gold"
+                        >Ucapan & Doa</label
+                    >
+                    <textarea
+                        id="message"
+                        name="message"
+                        rows="4"
+                        placeholder="Tuliskan ucapan Anda di sini..."
+                        class="w-full bg-cream-dark/30 border-b border-gold/20 py-3 px-4 focus:outline-none focus:border-gold transition-colors text-charcoal text-sm placeholder:text-charcoal/30 resize-none"
+                        required></textarea>
+                </div>
+                <button
+                    type="submit"
+                    id="submit-comment"
+                    class="w-full bg-charcoal text-cream py-4 rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-gold transition-all duration-500 active:scale-95 flex items-center justify-center gap-3 cursor-pointer"
+                >
+                    Kirim Ucapan
+                </button>
+            </form>
+        </div>
+
+        <!-- Comments Display List -->
+        <div
+            id="comments-container"
+            class="space-y-6 relative mb-12 min-h-[400px]"
+        >
+            <!-- Comments will be injected here via JS -->
+            <div id="comments-list" class="space-y-6"></div>
+
+            <!-- Skeleton/Empty State if needed -->
+            <div id="no-comments" class="hidden text-center py-20">
+                <p class="text-charcoal/40 italic">
+                    Belum ada ucapan. Jadilah yang pertama!
+                </p>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div
+            id="pagination"
+            class="flex justify-center items-center gap-4 reveal"
+        >
+            <button
+                id="prev-page"
+                class="p-2 rounded-full border border-gold/20 text-gold hover:bg-gold hover:text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+                <span class="material-symbols-outlined text-sm">arrow_back</span
+                >
+            </button>
+            <div
+                id="page-numbers"
+                class="flex gap-2 text-xs font-bold text-gold"
+            >
+                <!-- Page numbers injected here -->
+            </div>
+            <button
+                id="next-page"
+                class="p-2 rounded-full border border-gold/20 text-gold hover:bg-gold hover:text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+                <span class="material-symbols-outlined text-sm"
+                    >arrow_forward</span
+                >
+            </button>
+        </div>
+    </div>
+
+    <!-- Hidden Admin Toggle (Triple click on header) -->
+    <div id="admin-trigger" class="hidden"></div>
+</section>
+
+<script is:inline>
+    // Guestbook Logic
+    const STORAGE_KEY = "wedding_guestbook_comments";
+    const ITEMS_PER_PAGE = 5;
+    let currentPage = 1;
+    let isAdmin = localStorage.getItem("guestbook_admin") === "true";
+
+    const form = document.getElementById("guestbook-form");
+    const commentsList = document.getElementById("comments-list");
+    const noComments = document.getElementById("no-comments");
+    const pageNumbers = document.getElementById("page-numbers");
+    const prevBtn = document.getElementById("prev-page");
+    const nextBtn = document.getElementById("next-page");
+
+    // Admin Toggle (Triple click header to toggle)
+    document.querySelector("#guestbook h3").addEventListener("click", (e) => {
+        if (e.detail === 3) {
+            isAdmin = !isAdmin;
+            localStorage.setItem("guestbook_admin", isAdmin);
+            alert(isAdmin ? "Admin Mode ON" : "Admin Mode OFF");
+            renderComments();
+        }
+    });
+
+    function getComments() {
+        const data = localStorage.getItem(STORAGE_KEY);
+        return data ? JSON.parse(data) : [];
+    }
+
+    function saveComments(comments) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
+    }
+
+    function renderComments() {
+        const comments = getComments();
+        const totalPages = Math.ceil(comments.length / ITEMS_PER_PAGE);
+
+        if (comments.length === 0) {
+            commentsList.innerHTML = "";
+            noComments.classList.remove("hidden");
+            document.getElementById("pagination").classList.add("hidden");
+            return;
+        }
+
+        noComments.classList.add("hidden");
+        document.getElementById("pagination").classList.remove("hidden");
+
+        // Pagination bounds
+        const start = (currentPage - 1) * ITEMS_PER_PAGE;
+        const end = start + ITEMS_PER_PAGE;
+        const pageComments = comments.slice(start, end);
+
+        commentsList.innerHTML = pageComments
+            .map(
+                (c, index) => `
+            <div class="bg-white/50 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gold/5 flex flex-col gap-2 relative reveal active">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="text-gold font-bold text-sm uppercase tracking-wider">${c.name}</h4>
+                        <span class="text-[10px] text-charcoal/40 uppercase font-medium">${c.attendance} • ${c.date}</span>
+                    </div>
+                    ${
+                        isAdmin
+                            ? `
+                        <button onclick="deleteComment(${start + index})" class="text-red-400 hover:text-red-600 p-1 transition-colors">
+                            <span class="material-symbols-outlined text-sm">delete</span>
+                        </button>
+                    `
+                            : ""
+                    }
+                </div>
+                <p class="text-charcoal/80 text-sm leading-relaxed italic">"${c.message}"</p>
+            </div>
+        `,
+            )
+            .join("");
+
+        // Render Page Numbers
+        pageNumbers.innerHTML = "";
+        for (let i = 1; i <= totalPages; i++) {
+            const span = document.createElement("span");
+            span.textContent = i;
+            span.className = `w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-all ${i === currentPage ? "bg-gold text-white" : "hover:bg-gold/10"}`;
+            span.onclick = () => {
+                currentPage = i;
+                renderComments();
+            };
+            pageNumbers.appendChild(span);
+        }
+
+        prevBtn.disabled = currentPage === 1;
+        nextBtn.disabled = currentPage === totalPages;
+    }
+
+    window.deleteComment = (index) => {
+        if (!confirm("Hapus komentar ini?")) return;
+        const comments = getComments();
+        comments.splice(index, 1);
+        saveComments(comments);
+
+        // Adjust page if current page becomes empty
+        const newTotalPages = Math.ceil(comments.length / ITEMS_PER_PAGE);
+        if (currentPage > newTotalPages && currentPage > 1) {
+            currentPage = newTotalPages;
+        }
+
+        renderComments();
+    };
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const name = formData.get("name").trim();
+        const attendance = formData.get("attendance");
+        const message = formData.get("message").trim();
+
+        if (!name || !message) return;
+
+        const newComment = {
+            name,
+            attendance,
+            message,
+            date: new Date().toLocaleDateString("id-ID", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+            }),
+            timestamp: Date.now(),
+        };
+
+        const comments = getComments();
+        comments.unshift(newComment); // Newest first
+        saveComments(comments);
+
+        form.reset();
+        currentPage = 1; // Back to first page to see the new comment
+        renderComments();
+
+        // Optional: Scroll to top of comments
+        document
+            .getElementById("comments-container")
+            .scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    // Navigation buttons
+    prevBtn.onclick = () => {
+        if (currentPage > 1) {
+            currentPage--;
+            renderComments();
+        }
+    };
+    nextBtn.onclick = () => {
+        const total = Math.ceil(getComments().length / ITEMS_PER_PAGE);
+        if (currentPage < total) {
+            currentPage++;
+            renderComments();
+        }
+    };
+
+    // Initial Render
+    renderComments();
+</script>
+
+<style>
+    #guestbook-form input::placeholder,
+    #guestbook-form textarea::placeholder {
+        opacity: 0.5;
+    }
+</style>

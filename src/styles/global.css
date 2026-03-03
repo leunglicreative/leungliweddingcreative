@@ -21,7 +21,13 @@
 
     body {
         @apply bg-cream text-charcoal font-display antialiased;
-        min-height: 100dvh;
+        min-height: 100svh;
+        overscroll-behavior-y: none;
+    }
+
+    html {
+        overscroll-behavior-y: none;
+        height: 100svh;
     }
 }
 
