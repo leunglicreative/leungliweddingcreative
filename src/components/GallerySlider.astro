@@ -111,17 +111,31 @@ const {
 
         function handleDragMove(e: any) {
             if (!isDragging) return;
+            
             const currentX = e.type.includes("mouse")
                 ? e.pageX
                 : e.touches[0].clientX;
-            const diff = currentX - startX;
-            currentTranslate = prevTranslate + diff;
+            const currentY = e.type.includes("mouse")
+                ? e.pageY
+                : e.touches[0].clientY;
+
+            // Calculate movement diff
+            const diffX = currentX - startX;
+            const diffY = currentY - (e.type.includes("mouse") ? 0 : e.touches[0].clientY); // Simple Y check
+            
+            // If horizontal movement is significantly more than vertical, prevent page scroll
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+                if (e.cancelable) e.preventDefault();
+            }
+
+            currentTranslate = prevTranslate + diffX;
         }
 
         function handleDragEnd() {
+            if (!isDragging) return;
             isDragging = false;
             cancelAnimationFrame(animationID);
-            slider!.style.transition = "transform 0.5s ease-out";
+            slider!.style.transition = "transform 0.5s cubic-bezier(0.2, 1, 0.3, 1)";
 
             const movedBy = currentTranslate - prevTranslate;
             const threshold = 50;
@@ -140,11 +154,9 @@ const {
             if (isDragging) requestAnimationFrame(animation);
         }
 
-        // Event Listeners
-        slider.addEventListener("touchstart", handleDragStart, {
-            passive: true,
-        });
-        slider.addEventListener("touchmove", handleDragMove, { passive: true });
+        // Event Listeners - Use non-passive for touchmove to allow preventing scroll when swiping
+        slider.addEventListener("touchstart", handleDragStart, { passive: true });
+        slider.addEventListener("touchmove", handleDragMove, { passive: false });
         slider.addEventListener("touchend", handleDragEnd);
 
         slider.addEventListener("mousedown", handleDragStart);
