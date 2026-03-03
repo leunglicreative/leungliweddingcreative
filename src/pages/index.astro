@@ -155,6 +155,9 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 				if (isOpened) return;
 				isOpened = true;
 
+				// Save state to session storage
+				sessionStorage.setItem("invitation_opened", "true");
+
 				document.body.classList.remove("modal-active");
 				if (mainContent) {
 					mainContent.classList.remove("content-blur");
@@ -176,13 +179,25 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 				}
 			}
 
-			// Check if already opened before in this session (Disabled per user request to always show on reload)
-			if (false) {
+			// Check if already opened before in this session
+			const hasOpened =
+				sessionStorage.getItem("invitation_opened") === "true";
+
+			if (hasOpened) {
 				isOpened = true;
 				document.body.classList.remove("modal-active");
-				if (mainContent) mainContent.classList.remove("content-blur");
+				if (mainContent) {
+					mainContent.classList.remove("content-blur");
+					mainContent.style.filter = "none";
+					mainContent.style.transform = "none";
+				}
 				if (modal) modal.style.display = "none";
+
+				// Re-init reveal animations
 				initReveal();
+
+				// Try to start music (might be blocked by browser until first click)
+				window.dispatchEvent(new Event("start-wedding-music"));
 			} else {
 				if (openBtn) {
 					openBtn.addEventListener("click", openInvitation);
