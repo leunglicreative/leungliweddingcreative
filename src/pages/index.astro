@@ -133,29 +133,29 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 				if (isOpened) return;
 				isOpened = true;
 
-				// Save state to sessionStorage
-				sessionStorage.setItem("invitationOpened", "true");
-
 				document.body.classList.remove("modal-active");
-				if (mainContent) mainContent.classList.remove("content-blur");
+				if (mainContent) {
+					mainContent.classList.remove("content-blur");
+					mainContent.style.filter = "none";
+					mainContent.style.transform = "none";
+				}
+
+				// Trigger music playback
+				window.dispatchEvent(new Event("start-wedding-music"));
 
 				if (modal) {
-					modal.style.opacity = "0";
-					modal.style.transition = "opacity 1s ease, visibility 1s";
-					modal.style.visibility = "hidden";
-					modal.style.pointerEvents = "none";
+					modal.classList.add("opened");
 
 					setTimeout(() => {
 						modal.style.display = "none";
 						initReveal(); // Start animations after opening
-						// Refresh scroll for mobile stability
 						window.dispatchEvent(new Event("resize"));
-					}, 1000);
+					}, 1200); // Match with the 1.2s panel transition
 				}
 			}
 
-			// Check if already opened before in this session
-			if (sessionStorage.getItem("invitationOpened") === "true") {
+			// Check if already opened before in this session (Disabled per user request to always show on reload)
+			if (false) {
 				isOpened = true;
 				document.body.classList.remove("modal-active");
 				if (mainContent) mainContent.classList.remove("content-blur");
@@ -164,20 +164,6 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 			} else {
 				if (openBtn) {
 					openBtn.addEventListener("click", openInvitation);
-				}
-
-				// Auto-open after 10 seconds if not clicked
-				const autoOpenTimer = setTimeout(() => {
-					if (!isOpened) {
-						openInvitation();
-					}
-				}, 10000);
-
-				// Cleanup timer if manually opened
-				if (openBtn) {
-					openBtn.addEventListener("click", () =>
-						clearTimeout(autoOpenTimer),
-					);
 				}
 			}
 		</script>
