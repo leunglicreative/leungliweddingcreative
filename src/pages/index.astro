@@ -1,7 +1,6 @@
 ---
 import "../styles/global.css";
 import Hero from "../components/Hero.astro";
-import Countdown from "../components/Countdown.astro";
 import Details from "../components/Details.astro";
 import Quotes from "../components/Quotes.astro";
 import Guestbook from "../components/Guestbook.astro";
@@ -42,46 +41,63 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 			<!-- Hero Section - Background is static, content reveals -->
 			<Hero />
 
-			<!-- Reveal Sections -->
-			<div class="reveal">
-				<Countdown />
-			</div>
-
 			<!-- Formal Greeting Section -->
 			<div class="reveal">
-				<div class="max-w-4xl mx-auto text-center pt-2 pb-6 px-6">
+				<!-- SPACING: Section vertical padding -->
+				<div class="max-w-4xl mx-auto text-center py-20 px-6">
+					<!-- SPACING: Header bottom margin -->
 					<h2
-						class="text-gold uppercase tracking-[0.4em] text-[10px] lg:text-xs font-bold mb-8"
+						class="text-gold uppercase tracking-[0.4em] text-[10px] lg:text-xs font-bold mb-10"
 					>
 						The Wedding Invitation
 					</h2>
 					<p
-						class="text-gold font-serif text-lg lg:text-2xl leading-relaxed mb-10"
+						class="text-gold font-serif text-lg lg:text-2xl leading-relaxed mb-16 italic opacity-90 px-4 lg:px-12"
 					>
 						"Maha Suci Allah yang telah menciptakan makhluk-Nya
 						berpasang-pasangan. Ya Allah, perkenankanlah kami
 						merangkaikan kasih sayang yang Kau ciptakan dalam
 						pernikahan putra-putri kami."
 					</p>
-					<div class="flex flex-col items-center gap-6">
+
+					<div class="flex flex-col items-center gap-12">
+						<!-- Groom -->
 						<div class="flex flex-col items-center">
-							<p
-								class="text-charcoal font-bold tracking-[0.2em] text-sm uppercase mb-2"
+							<h3
+								class="text-4xl lg:text-6xl font-serif text-charcoal mb-4 italic leading-tight"
 							>
-								Mempelai Pria & Mempelai Wanita
-							</p>
+								Umar
+							</h3>
 							<p
-								class="text-charcoal/60 text-[10px] lg:text-xs tracking-widest leading-loose font-medium"
+								class="text-charcoal/60 text-[11px] lg:text-xs tracking-widest leading-loose font-medium uppercase"
 							>
-								Putra dari Keluarga Bpk. Nama Ayah & Ibu Nama
-								Ibu <br />
-								& <br />
-								Putri dari Keluarga Bpk. Nama Ayah & Ibu Nama Ibu
+								Putra dari Keluarga Bpk. Nama Ayah & Ibu
 							</p>
 						</div>
-						<div
-							class="h-12 w-px bg-linear-to-b from-gold/50 to-transparent"
-						>
+
+						<!-- Separator -->
+						<!-- SPACING: Separator gap -->
+						<div class="flex items-center gap-4 w-full max-w-xs">
+							<div class="h-px flex-1 bg-gold/30"></div>
+							<span
+								class="text-2xl lg:text-3xl font-serif text-gold italic"
+								>&</span
+							>
+							<div class="h-px flex-1 bg-gold/30"></div>
+						</div>
+
+						<!-- Bride -->
+						<div class="flex flex-col items-center">
+							<h3
+								class="text-4xl lg:text-6xl font-serif text-charcoal mb-4 italic leading-tight"
+							>
+								Mempelai Wanita
+							</h3>
+							<p
+								class="text-charcoal/60 text-[11px] lg:text-xs tracking-widest leading-loose font-medium uppercase"
+							>
+								Putri dari Keluarga Bpk. Nama Ayah & Ibu
+							</p>
 						</div>
 					</div>
 				</div>

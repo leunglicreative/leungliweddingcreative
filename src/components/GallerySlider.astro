@@ -14,8 +14,10 @@ const {
 } = Astro.props;
 ---
 
+<!-- SPACING: Section vertical padding -->
 <div class="gallery-slider-wrapper relative w-full py-8 overflow-hidden">
     <!-- Slider Container -->
+    <!-- SPACING: Container padding for mobile -->
     <div
         id="gallery-slider"
         class="flex cursor-grab active:cursor-grabbing px-6 lg:px-0"
@@ -46,6 +48,7 @@ const {
     </div>
 
     <!-- Navigation Dots -->
+    <!-- SPACING: Dots container top margin and gap -->
     <div class="flex justify-center gap-3 mt-10">
         {
             images.map((_, index) => (
