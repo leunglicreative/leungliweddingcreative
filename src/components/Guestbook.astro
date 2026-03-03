@@ -44,7 +44,7 @@
                             required
                         />
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-2 attendance-container">
                         <label
                             for="attendance"
                             class="text-[10px] uppercase tracking-widest font-bold text-gold"
@@ -190,7 +190,7 @@
         commentsList.innerHTML = pageComments
             .map(
                 (c, index) => `
-            <div class="bg-white/50 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gold/5 flex flex-col gap-2 relative reveal active">
+            <div class="bg-white/50 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gold/5 flex flex-col gap-2 relative comment-item">
                 <div class="flex justify-between items-start">
                     <div>
                         <h4 class="text-gold font-bold text-sm uppercase tracking-wider">${c.name}</h4>
@@ -302,5 +302,65 @@
     #guestbook-form input::placeholder,
     #guestbook-form textarea::placeholder {
         opacity: 0.5;
+    }
+
+    #guestbook-form input,
+    #guestbook-form select,
+    #guestbook-form textarea {
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    /* Luxury Hover Effect for Form Fields */
+    #guestbook-form input:hover,
+    #guestbook-form select:hover,
+    #guestbook-form textarea:hover {
+        background-color: rgba(176, 141, 87, 0.05);
+        border-bottom-color: #b08d57;
+        transform: translateY(-2px);
+    }
+
+    #guestbook-form input:focus,
+    #guestbook-form select:focus,
+    #guestbook-form textarea:focus {
+        background-color: rgba(176, 141, 87, 0.08);
+        border-bottom-color: #d4af37;
+        box-shadow: 0 4px 12px rgba(176, 141, 87, 0.05);
+        transform: translateY(-2px);
+    }
+
+    /* Attendance Hover specific highlight */
+    .attendance-container {
+        position: relative;
+    }
+
+    .attendance-container::after {
+        content: "\25BC";
+        position: absolute;
+        right: 15px;
+        top: 40px;
+        font-size: 10px;
+        color: #b08d57;
+        pointer-events: none;
+        transition: transform 0.3s ease;
+    }
+
+    .attendance-container:hover::after {
+        transform: translateY(2px);
+    }
+
+    /* Comment Item Animation on Render */
+    .comment-item {
+        animation: fade-in-up 0.6s ease-out forwards;
+    }
+
+    @keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>

@@ -13,7 +13,10 @@ import FloatingDecor from "../components/FloatingDecor.astro";
 <html lang="en" class="scroll-smooth">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>The Wedding of Mempelai Pria & Wanita</title>
@@ -21,7 +24,12 @@ import FloatingDecor from "../components/FloatingDecor.astro";
 		<meta name="theme-color" content="#f9f6f0" />
 	</head>
 
-	<body class="font-display antialiased bg-cream text-charcoal modal-active">
+	<body
+		class="font-display antialiased bg-cream text-charcoal modal-active"
+		oncontextmenu="return false"
+		oncopy="return false"
+		oncut="return false"
+	>
 		<InvitationModal />
 
 		<main

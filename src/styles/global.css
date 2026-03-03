@@ -23,6 +23,10 @@
         @apply bg-cream text-charcoal font-display antialiased;
         min-height: 100svh;
         overscroll-behavior-y: none;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
     }
 
     html {
